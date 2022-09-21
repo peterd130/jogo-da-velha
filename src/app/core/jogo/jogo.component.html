@@ -1,0 +1,49 @@
+<div id="pagina-container">
+  <div class="d-flex justify-content-center" id="placar">
+    <div class="jogador">
+      <div class="text-center simbolo">
+        <img [src]='imagens(dadosJogadorHumano().simbolo)' alt="" height="36px">
+      </div>
+      <div>
+        Você
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-between w-100" id="vitorias">
+      <div class="quant-vitorias">{{ dadosJogadorHumano().vitorias }}</div>
+      <div>x</div>
+      <div class="quant-vitorias">{{ dadosJogadorSistema().vitorias }}</div>
+    </div>
+    <div class="jogador">
+      <div class="text-center simbolo">
+        <img [src]='imagens(dadosJogadorSistema().simbolo)' alt="" height="36px">
+      </div>
+      <div>
+        Sistema
+      </div>
+    </div>
+  </div>
+  
+  <div id="notificacoes">
+    <div *ngIf="fimDeJogo(); else turno" class="text-center">
+      {{ fimDeJogo() }}
+    </div>
+    <ng-template #turno>
+      <div class="text-center">
+        {{ turnoAtualId === 1 ? 'É sua vez' :  'É a vez do sistema'}}
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngFor="let linha of tabuleiroAtual(); index as i">
+    <div class="d-flex justify-content-center">
+      <button *ngFor="let c of linha; index as j" (click)="realizaJogada(i, j)"
+        class="celula" [ngStyle]="{'pointer-events': podeRealizarJogada(i, j) ? 'auto' : 'none'}">
+        <img [src]='imagens(c)' alt="" width="55%">
+      </button>
+    </div>
+  </div>
+  
+  <div class="text-center" *ngIf="fimDeJogo()">
+    <button (click)="reiniaJogo()" id="reinicia-jogo-btn">Reiniciar jogo</button>
+  </div>
+</div>
